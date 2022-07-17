@@ -180,10 +180,15 @@ func heal_highest(amount : int):
 	wound_values.sort()
 	var value_to_remove = null
 	
-	for index in range(wound_values.size() - 1, 0, -1):
-		if wound_values[index] <= amount :
-			value_to_remove = wound_values[index]
-			break
+	if wound_values.size() > 1 :
+		for index in range(wound_values.size() - 1, 0, -1):
+			if wound_values[index] <= amount :
+				value_to_remove = wound_values[index]
+				break
+	else:
+		var value_to_check = wound_values[0]
+		if value_to_check <= amount :
+			value_to_remove = value_to_check
 	
 	if value_to_remove:
 		for node in wounds_container.get_children():

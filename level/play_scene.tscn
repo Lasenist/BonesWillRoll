@@ -241,7 +241,7 @@ position = Vector2( 10, 13 )
 scale = Vector2( 2, 2 )
 
 [node name="AnimatedSprite" parent="Control2/dice" index="0"]
-frame = 3
+frame = 1
 
 [node name="ColorRect" type="ColorRect" parent="Control2"]
 margin_left = 12.0

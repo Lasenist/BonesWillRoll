@@ -1,4 +1,4 @@
-[gd_scene load_steps=16 format=2]
+[gd_scene load_steps=17 format=2]
 
 [ext_resource path="res://UI/adventurer/adventurer_name_spritesheet.png" type="Texture" id=1]
 [ext_resource path="res://new_theme.tres" type="Theme" id=2]
@@ -7,6 +7,7 @@
 [ext_resource path="res://UI/numerals/two.tscn" type="PackedScene" id=5]
 [ext_resource path="res://UI/adventurer/state_spritesheet.png" type="Texture" id=6]
 [ext_resource path="res://UI/numerals/ten.tscn" type="PackedScene" id=7]
+[ext_resource path="res://UI/numerals/three.tscn" type="PackedScene" id=8]
 
 [sub_resource type="AtlasTexture" id=1]
 atlas = ExtResource( 1 )
@@ -160,6 +161,10 @@ custom_constants/separation = 1
 __meta__ = {
 "_edit_use_anchors_": false
 }
+
+[node name="three" parent="Panel/wounds_panel/HBoxContainer" instance=ExtResource( 8 )]
+margin_right = 7.0
+margin_bottom = 6.0
 
 [node name="total_wounds" type="Panel" parent="Panel"]
 margin_left = 60.0
