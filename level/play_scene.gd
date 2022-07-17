@@ -30,6 +30,11 @@ onready var cleric = $cleric
 onready var current_active_adventurer = 0
 onready var character_turn_order = [fighter, rogue, cleric]
 
+onready var pos1 = $positions/pos1
+onready var pos2 = $positions/pos2
+onready var pos3 = $positions/pos3
+onready var pos_positions = [pos1, pos2, pos3]
+onready var tween = $Tween
 
 onready var take_action_box = $take_action_box
 onready var abilities_action_box = $abilities_action_box
@@ -96,6 +101,10 @@ func _end_round(delta):
 			
 			if current_active_adventurer >= character_turn_order.size():
 				current_active_adventurer = 0
+			
+			tween.interpolate_property($abilities_action_box, "rect_global_position", null, 
+					pos_positions[current_active_adventurer].rect_global_position, 1, Tween.TRANS_LINEAR, Tween.EASE_IN )
+			tween.start()
 			
 			yield(get_tree().create_timer(1), "timeout")
 			end_round.is_active = false		
