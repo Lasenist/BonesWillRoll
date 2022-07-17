@@ -297,6 +297,7 @@ func select_hover():
 		render()
 		emit_signal("post_selection_made")
 		last_selected_cells = null
+		selected_cells = []
 	
 		
 func _shiftRight( array : Array ):
