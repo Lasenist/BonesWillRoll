@@ -219,7 +219,6 @@ func _on_abilities_action_box_heal_three_pressed():
 # HEAL DICE
 func _on_abilities_action_box_heal_dice_pressed(result : int):
 	_get_active_character().heal(result)
-	current_state = GameState.END_ROUND_TWO
 
 func _on_finished_healing():
 	current_state = GameState.END_ROUND
