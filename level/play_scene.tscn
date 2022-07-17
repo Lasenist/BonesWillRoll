@@ -1,4 +1,4 @@
-[gd_scene load_steps=17 format=2]
+[gd_scene load_steps=19 format=2]
 
 [ext_resource path="res://UI/action/take.tscn" type="PackedScene" id=1]
 [ext_resource path="res://playing_field/field.tscn" type="PackedScene" id=2]
@@ -16,6 +16,40 @@
 [ext_resource path="res://UI/collect_runes.png" type="Texture" id=14]
 [ext_resource path="res://bones_loop.wav" type="AudioStream" id=15]
 [ext_resource path="res://UI/dead.png" type="Texture" id=16]
+[ext_resource path="res://UI/dice/dice.tscn" type="PackedScene" id=17]
+
+[sub_resource type="GDScript" id=1]
+script/source = "extends Control
+
+
+# Declare member variables here. Examples:
+# var a = 2
+# var b = \"text\"
+
+
+# Called when the node enters the scene tree for the first time.
+func _ready():
+	
+	for dice_button in get_tree().get_nodes_in_group(\"dice_button\"):
+		dice_button.connect(\"show_dice_roll_result\", self, \"_on_show_dice_roll_result\")
+		pass
+	
+	visible = false
+	pass # Replace with function body.
+
+func _process(delta):
+	pass
+
+
+func _on_show_dice_roll_result(result : int):
+	visible = true
+	$dice/AnimatedSprite.stop()
+	$dice/AnimatedSprite.frame = result - 1
+	yield(get_tree().create_timer(3), \"timeout\")
+	visible = false
+	$dice/AnimatedSprite.play()
+	pass
+"
 
 [node name="game" type="Control"]
 anchor_right = 1.0
@@ -183,6 +217,47 @@ __meta__ = {
 [node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
 stream = ExtResource( 15 )
 
+[node name="Control2" type="Control" parent="."]
+margin_left = 167.0
+margin_top = 5.0
+margin_right = 207.0
+margin_bottom = 45.0
+script = SubResource( 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="dice" parent="Control2" instance=ExtResource( 17 )]
+position = Vector2( 10, 13 )
+scale = Vector2( 2, 2 )
+
+[node name="AnimatedSprite" parent="Control2/dice" index="0"]
+frame = 2
+
+[node name="ColorRect" type="ColorRect" parent="Control2"]
+margin_left = 12.0
+margin_top = 16.0
+margin_right = 13.0
+margin_bottom = 28.0
+
+[node name="ColorRect2" type="ColorRect" parent="Control2"]
+margin_left = 12.0
+margin_top = 28.0
+margin_right = 26.0
+margin_bottom = 29.0
+
+[node name="ColorRect3" type="ColorRect" parent="Control2"]
+margin_left = 25.0
+margin_top = 16.0
+margin_right = 26.0
+margin_bottom = 28.0
+
+[node name="ColorRect4" type="ColorRect" parent="Control2"]
+margin_left = 12.0
+margin_top = 15.0
+margin_right = 26.0
+margin_bottom = 16.0
+
 [connection signal="post_selection_made" from="Control/field" to="." method="_on_field_post_selection_made"]
 [connection signal="post_swap_made" from="Control/field" to="." method="_on_field_post_swap_made"]
 [connection signal="pre_fill_field" from="Control/field" to="." method="_on_field_pre_fill_field"]
@@ -214,3 +289,5 @@ stream = ExtResource( 15 )
 [connection signal="ability_spend" from="cleric/cleric_cure_action" to="cleric" method="_on_cleric_cure_action2_ability_spend"]
 [connection signal="cure_dice_pressed" from="cleric/cleric_cure_action" to="." method="_on_cleric_cure_action_cure_dice_pressed"]
 [connection signal="cure_three_pressed" from="cleric/cleric_cure_action" to="." method="_on_cleric_cure_action_cure_three_pressed"]
+
+[editable path="Control2/dice"]

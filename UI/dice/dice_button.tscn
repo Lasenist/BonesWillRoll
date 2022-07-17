@@ -7,7 +7,7 @@
 [sub_resource type="DynamicFont" id=3]
 size = 1
 
-[node name="dice_button" type="Button"]
+[node name="dice_button" type="Button" groups=["dice_button"]]
 margin_right = 9.0
 margin_bottom = 9.0
 theme = ExtResource( 2 )
@@ -22,7 +22,7 @@ __meta__ = {
 [node name="dice" parent="." instance=ExtResource( 1 )]
 
 [node name="AnimatedSprite" parent="dice" index="0"]
-frame = 4
+frame = 5
 
 [connection signal="pressed" from="." to="." method="_on_dice_button_pressed"]
 

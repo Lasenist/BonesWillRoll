@@ -204,10 +204,14 @@ func _on_abilities_action_box_swap_three_pressed():
 
 # SWAP DICE
 func _on_abilities_action_box_swap_dice_pressed(result : int):
-	current_selection_wait = SelectionWait.SWAP
-	field.selected_amount_to_reach = result
-	field.is_multi_select_allowed = true
-	current_state = GameState.END_ROUND_TWO
+	if result != 1 :
+		current_selection_wait = SelectionWait.SWAP
+		field.selected_amount_to_reach = result
+		field.is_multi_select_allowed = true
+		current_state = GameState.END_ROUND_TWO
+		return
+	current_state = GameState.END_ROUND
+	return
 
 func _on_field_post_swap_made():
 	current_state = GameState.END_ROUND
