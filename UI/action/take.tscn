@@ -1,0 +1,89 @@
+[gd_scene load_steps=9 format=2]
+
+[ext_resource path="res://new_theme.tres" type="Theme" id=1]
+[ext_resource path="res://UI/numerals/numerals_spritesheet.png" type="Texture" id=2]
+[ext_resource path="res://UI/action/action_name_spritesheet.png" type="Texture" id=3]
+[ext_resource path="res://UI/three_button/three_button.tscn" type="PackedScene" id=4]
+[ext_resource path="res://UI/dice/dice_button.tscn" type="PackedScene" id=5]
+[ext_resource path="res://UI/action/take.gd" type="Script" id=6]
+
+[sub_resource type="AtlasTexture" id=1]
+atlas = ExtResource( 2 )
+region = Rect2( 0, 0, 3, 5 )
+
+[sub_resource type="AtlasTexture" id=2]
+atlas = ExtResource( 3 )
+region = Rect2( 0, 0, 15, 5 )
+
+[node name="take_action_box" type="Control"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+script = ExtResource( 6 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Panel" type="Panel" parent="."]
+margin_right = 52.0
+margin_bottom = 13.0
+theme = ExtResource( 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="numeral_bg" type="ColorRect" parent="Panel"]
+visible = false
+margin_left = 1.0
+margin_top = 1.0
+margin_right = 8.0
+margin_bottom = 12.0
+rect_min_size = Vector2( 3, 0 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="numeral" type="TextureRect" parent="Panel"]
+margin_left = 3.0
+margin_top = 4.0
+margin_right = 6.0
+margin_bottom = 9.0
+texture = SubResource( 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="seperator" type="ColorRect" parent="Panel"]
+margin_left = 8.0
+margin_top = 1.0
+margin_right = 9.0
+margin_bottom = 12.0
+color = Color( 0.717647, 0.709804, 0.709804, 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="TextureRect" type="TextureRect" parent="Panel"]
+margin_left = 10.0
+margin_top = 4.0
+margin_right = 25.0
+margin_bottom = 9.0
+texture = SubResource( 2 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="three_button" parent="Panel" instance=ExtResource( 4 )]
+margin_left = 28.0
+margin_top = 2.0
+margin_right = 37.0
+margin_bottom = 11.0
+disabled = true
+
+[node name="dice_button" parent="Panel" instance=ExtResource( 5 )]
+margin_left = 41.0
+margin_top = 2.0
+margin_right = 50.0
+margin_bottom = 11.0
+
+[connection signal="pressed" from="Panel/three_button" to="." method="_on_three_button_pressed"]
+[connection signal="dice_rolled" from="Panel/dice_button" to="." method="_on_dice_button_dice_rolled"]

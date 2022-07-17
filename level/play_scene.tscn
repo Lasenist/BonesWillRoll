@@ -1,0 +1,84 @@
+[gd_scene load_steps=7 format=2]
+
+[ext_resource path="res://UI/action/take.tscn" type="PackedScene" id=1]
+[ext_resource path="res://playing_field/field.tscn" type="PackedScene" id=2]
+[ext_resource path="res://UI/action/abilities.tscn" type="PackedScene" id=3]
+[ext_resource path="res://UI/adventurer/adventurer.tscn" type="PackedScene" id=4]
+[ext_resource path="res://level/play_scene.gd" type="Script" id=5]
+[ext_resource path="res://UI/end_round.tscn" type="PackedScene" id=6]
+
+[node name="game" type="Control"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+rect_min_size = Vector2( 50, 50 )
+mouse_filter = 2
+script = ExtResource( 5 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Control" type="Control" parent="."]
+anchor_bottom = 1.0
+margin_left = 47.0
+margin_top = 2.0
+margin_right = 239.0
+margin_bottom = 2.0
+rect_min_size = Vector2( 192, 192 )
+mouse_filter = 2
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="field" parent="Control" instance=ExtResource( 2 )]
+position = Vector2( 42, 52 )
+
+[node name="take_action_box" parent="." instance=ExtResource( 1 )]
+margin_left = 284.0
+margin_top = 54.0
+margin_right = -176.0
+margin_bottom = -233.0
+
+[node name="abilities_action_box" parent="." instance=ExtResource( 3 )]
+margin_left = 284.0
+margin_top = 73.0
+margin_right = -176.0
+margin_bottom = -178.0
+
+[node name="fighter" parent="." instance=ExtResource( 4 )]
+margin_left = 341.0
+margin_top = 73.0
+margin_right = -114.0
+margin_bottom = -177.0
+
+[node name="rogue" parent="." instance=ExtResource( 4 )]
+margin_left = 341.0
+margin_top = 127.0
+margin_right = -114.0
+margin_bottom = -122.0
+type = "Rogue"
+
+[node name="cleric" parent="." instance=ExtResource( 4 )]
+margin_left = 341.0
+margin_top = 182.0
+margin_right = -114.0
+margin_bottom = -68.0
+type = "Cleric"
+
+[node name="end_round" parent="." instance=ExtResource( 6 )]
+margin_left = 285.0
+margin_top = 234.0
+margin_right = -175.0
+margin_bottom = -53.0
+
+[connection signal="post_selection_made" from="Control/field" to="." method="_on_field_post_selection_made"]
+[connection signal="post_swap_made" from="Control/field" to="." method="_on_field_post_swap_made"]
+[connection signal="selection_made" from="Control/field" to="." method="_on_field_selection_made"]
+[connection signal="dice_rolled" from="take_action_box" to="." method="_on_take_action_box_dice_rolled"]
+[connection signal="regular_action_taken" from="take_action_box" to="." method="_on_take_action_box_regular_action_taken"]
+[connection signal="heal_dice_pressed" from="abilities_action_box" to="." method="_on_abilities_action_box_heal_dice_pressed"]
+[connection signal="heal_three_pressed" from="abilities_action_box" to="." method="_on_abilities_action_box_heal_three_pressed"]
+[connection signal="swap_dice_pressed" from="abilities_action_box" to="." method="_on_abilities_action_box_swap_dice_pressed"]
+[connection signal="swap_three_pressed" from="abilities_action_box" to="." method="_on_abilities_action_box_swap_three_pressed"]
+[connection signal="finished_healing" from="fighter" to="." method="_on_finished_healing"]
+[connection signal="finished_healing" from="rogue" to="." method="_on_finished_healing"]
+[connection signal="finished_healing" from="cleric" to="." method="_on_finished_healing"]

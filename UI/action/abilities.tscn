@@ -1,0 +1,167 @@
+[gd_scene load_steps=10 format=2]
+
+[ext_resource path="res://new_theme.tres" type="Theme" id=1]
+[ext_resource path="res://UI/numerals/numerals_spritesheet.png" type="Texture" id=2]
+[ext_resource path="res://UI/action/action_name_spritesheet.png" type="Texture" id=3]
+[ext_resource path="res://UI/three_button/three_button.tscn" type="PackedScene" id=4]
+[ext_resource path="res://UI/dice/dice_button.tscn" type="PackedScene" id=5]
+[ext_resource path="res://UI/action/abilities.gd" type="Script" id=6]
+
+[sub_resource type="AtlasTexture" id=1]
+atlas = ExtResource( 2 )
+region = Rect2( 4, 0, 5, 5 )
+
+[sub_resource type="AtlasTexture" id=5]
+atlas = ExtResource( 3 )
+region = Rect2( 0, 7, 17, 5 )
+
+[sub_resource type="AtlasTexture" id=2]
+atlas = ExtResource( 3 )
+region = Rect2( 0, 14, 15, 5 )
+
+[node name="abilities_action_box" type="Control"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+script = ExtResource( 6 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Panel" type="Panel" parent="."]
+margin_right = 52.0
+margin_bottom = 50.0
+theme = ExtResource( 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="numeral" type="Control" parent="Panel"]
+margin_right = 9.0
+margin_bottom = 32.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="numeral_bg" type="ColorRect" parent="Panel/numeral"]
+visible = false
+margin_left = 1.0
+margin_top = 1.0
+margin_right = 8.0
+margin_bottom = 49.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="numeral" type="TextureRect" parent="Panel/numeral"]
+anchor_top = 0.5
+anchor_bottom = 0.5
+margin_left = 2.0
+margin_top = 5.0
+margin_right = 7.0
+margin_bottom = 10.0
+texture = SubResource( 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="seperator" type="ColorRect" parent="Panel/numeral"]
+margin_left = 8.0
+margin_top = 1.0
+margin_right = 9.0
+margin_bottom = 49.0
+color = Color( 0.717647, 0.709804, 0.709804, 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="swap_action" type="Control" parent="Panel"]
+margin_left = 9.0
+margin_right = 52.0
+margin_bottom = 13.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="swap_label" type="TextureRect" parent="Panel/swap_action"]
+margin_left = 1.0
+margin_top = 4.0
+margin_right = 18.0
+margin_bottom = 9.0
+texture = SubResource( 5 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="three_button" parent="Panel/swap_action" instance=ExtResource( 4 )]
+margin_left = 20.0
+margin_top = 2.0
+margin_right = 29.0
+margin_bottom = 11.0
+disabled = true
+
+[node name="dice_button" parent="Panel/swap_action" instance=ExtResource( 5 )]
+margin_left = 32.0
+margin_top = 2.0
+margin_right = 41.0
+margin_bottom = 11.0
+
+[node name="vseperator1" type="ColorRect" parent="Panel/swap_action"]
+margin_top = 12.0
+margin_right = 42.0
+margin_bottom = 13.0
+color = Color( 0.270588, 0.243137, 0.243137, 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="heal_action" type="Control" parent="Panel"]
+margin_left = 9.0
+margin_top = 12.0
+margin_right = 52.0
+margin_bottom = 25.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="heal_label" type="TextureRect" parent="Panel/heal_action"]
+margin_left = 1.0
+margin_top = 4.0
+margin_right = 18.0
+margin_bottom = 9.0
+texture = SubResource( 2 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="three_button" parent="Panel/heal_action" instance=ExtResource( 4 )]
+margin_left = 20.0
+margin_top = 2.0
+margin_right = 29.0
+margin_bottom = 11.0
+disabled = true
+
+[node name="dice_button" parent="Panel/heal_action" instance=ExtResource( 5 )]
+margin_left = 32.0
+margin_top = 2.0
+margin_right = 41.0
+margin_bottom = 11.0
+
+[node name="vseperator1" type="ColorRect" parent="Panel/heal_action"]
+margin_top = 12.0
+margin_right = 42.0
+margin_bottom = 13.0
+color = Color( 0.270588, 0.243137, 0.243137, 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Control" type="Control" parent="Panel"]
+margin_left = 9.0
+margin_top = 24.0
+margin_right = 52.0
+margin_bottom = 41.0
+
+[connection signal="pressed" from="Panel/swap_action/three_button" to="." method="_on_swap_three_button_pressed"]
+[connection signal="dice_rolled" from="Panel/swap_action/dice_button" to="." method="_on_dice_button_dice_rolled"]
+[connection signal="pressed" from="Panel/heal_action/three_button" to="." method="_on_heal_three_button_pressed"]
+[connection signal="dice_rolled" from="Panel/heal_action/dice_button" to="." method="_on_heal_dice_button_dice_rolled"]
