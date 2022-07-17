@@ -127,7 +127,7 @@ func update_total_wounds():
 	
 	var old = total_wounds_container.get_child(0)
 	total_wounds_container.remove_child(old)
-	if total_wounds == 0 :
+	if total_wounds != 0 :
 		total_wounds_container.add_child(new_total_wounds)
 	pass
 
