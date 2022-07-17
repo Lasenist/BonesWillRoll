@@ -1,9 +1,10 @@
-[gd_scene load_steps=11 format=2]
+[gd_scene load_steps=12 format=2]
 
 [ext_resource path="res://UI/adventurer/adventurer_name_spritesheet.png" type="Texture" id=1]
 [ext_resource path="res://new_theme.tres" type="Theme" id=2]
 [ext_resource path="res://UI/adventurer/rune_icon_spritesheet.png" type="Texture" id=3]
 [ext_resource path="res://UI/adventurer/adventurer.gd" type="Script" id=4]
+[ext_resource path="res://UI/numerals/two.tscn" type="PackedScene" id=5]
 
 [sub_resource type="AtlasTexture" id=1]
 atlas = ExtResource( 1 )
@@ -40,7 +41,7 @@ __meta__ = {
 }
 
 [node name="Panel" type="Panel" parent="."]
-margin_right = 57.0
+margin_right = 85.0
 margin_bottom = 50.0
 theme = ExtResource( 2 )
 __meta__ = {
@@ -51,7 +52,7 @@ __meta__ = {
 visible = false
 margin_left = 1.0
 margin_top = 1.0
-margin_right = 56.0
+margin_right = 84.0
 margin_bottom = 8.0
 __meta__ = {
 "_edit_use_anchors_": false
@@ -100,14 +101,14 @@ __meta__ = {
 [node name="ColorRect" type="ColorRect" parent="Panel"]
 margin_left = 1.0
 margin_top = 8.0
-margin_right = 56.0
+margin_right = 84.0
 margin_bottom = 9.0
 color = Color( 0.717647, 0.709804, 0.709804, 1 )
 
 [node name="wounds_panel" type="Panel" parent="Panel"]
 margin_left = 2.0
 margin_top = 10.0
-margin_right = 45.0
+margin_right = 73.0
 margin_bottom = 19.0
 __meta__ = {
 "_edit_use_anchors_": false
@@ -124,9 +125,9 @@ __meta__ = {
 }
 
 [node name="total_wounds" type="Panel" parent="Panel"]
-margin_left = 44.0
+margin_left = 72.0
 margin_top = 10.0
-margin_right = 55.0
+margin_right = 83.0
 margin_bottom = 19.0
 __meta__ = {
 "_edit_use_anchors_": false
@@ -152,9 +153,9 @@ __meta__ = {
 }
 
 [node name="rune_inventory" type="Panel" parent="Panel"]
-margin_left = 15.0
+margin_left = 2.0
 margin_top = 20.0
-margin_right = 43.0
+margin_right = 30.0
 margin_bottom = 48.0
 __meta__ = {
 "_edit_use_anchors_": false
@@ -286,6 +287,70 @@ margin_top = 20.0
 margin_right = 26.0
 margin_bottom = 26.0
 texture = SubResource( 4 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="can_use_ability" type="Control" parent="."]
+margin_left = 37.0
+margin_top = 21.0
+margin_right = 77.0
+margin_bottom = 61.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Panel" type="Panel" parent="can_use_ability"]
+margin_left = -8.0
+margin_top = -1.0
+margin_right = 1.0
+margin_bottom = 27.0
+theme = ExtResource( 2 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="active_bg" type="ColorRect" parent="can_use_ability/Panel"]
+visible = false
+margin_left = 1.0
+margin_top = 1.0
+margin_right = 8.0
+margin_bottom = 27.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="two" parent="can_use_ability/Panel" instance=ExtResource( 5 )]
+margin_left = 2.0
+margin_top = 11.0
+margin_right = 7.0
+margin_bottom = 16.0
+
+[node name="ColorRect" type="ColorRect" parent="can_use_ability"]
+margin_left = 1.0
+margin_top = -1.0
+margin_right = 45.0
+color = Color( 0.717647, 0.709804, 0.709804, 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="ColorRect3" type="ColorRect" parent="can_use_ability"]
+margin_left = 45.0
+margin_top = -1.0
+margin_right = 46.0
+margin_bottom = 27.0
+color = Color( 0.717647, 0.709804, 0.709804, 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="ColorRect2" type="ColorRect" parent="can_use_ability"]
+margin_left = 1.0
+margin_top = 26.0
+margin_right = 45.0
+margin_bottom = 27.0
+color = Color( 0.717647, 0.709804, 0.709804, 1 )
 __meta__ = {
 "_edit_use_anchors_": false
 }

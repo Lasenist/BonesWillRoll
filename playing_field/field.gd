@@ -2,6 +2,7 @@ extends Node2D
 
 signal selection_made
 signal post_selection_made
+signal pre_fill_field
 signal post_swap_made
 
 const WIDTH = 6
@@ -53,15 +54,17 @@ func _ready():
 	
 	var entity_type_weighted_bag := RNGTools.WeightedBag.new()
 	entity_type_weighted_bag.weights = {
-		Enemy = 6,
-		Rune = 4
+		Enemy = 8,
+		Rune = 2
 	}	
 	
 	var enemy_level_weighted_bag := RNGTools.WeightedBag.new()
 	enemy_level_weighted_bag.weights = {
-		One = 5,
-		Two = 3,
-		Three = 2
+		One = 50,
+		Two = 25,
+		Three = 12,
+		Four = 6,
+		Five = 3
 	}
 	
 	build_incoming_entities(108, entity_type_weighted_bag, enemy_level_weighted_bag)
@@ -133,6 +136,16 @@ func fill_gaps():
 			var cell = field[x][y]
 			if cell == null:
 				field[x][y] = incoming_entities.pop_front()
+				pass
+			pass
+	pass
+
+func fill_gaps_with_rune(entity : FieldEntity):
+	for x in WIDTH:
+		for y in HEIGHT:
+			var cell = field[x][y]
+			if cell == null:
+				field[x][y] = entity
 				pass
 			pass
 	pass
@@ -241,6 +254,7 @@ func take_hover():
 	
 	emit_signal("selection_made", selected_entities)
 	clear_hover()
+	emit_signal("pre_fill_field")
 	fill_gaps()
 	render()
 	emit_signal("post_selection_made")

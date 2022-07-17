@@ -28,8 +28,8 @@ __meta__ = {
 }
 
 [node name="Panel" type="Panel" parent="."]
-margin_right = 52.0
-margin_bottom = 50.0
+margin_right = 54.0
+margin_bottom = 25.0
 theme = ExtResource( 1 )
 __meta__ = {
 "_edit_use_anchors_": false
@@ -43,11 +43,10 @@ __meta__ = {
 }
 
 [node name="numeral_bg" type="ColorRect" parent="Panel/numeral"]
-visible = false
 margin_left = 1.0
 margin_top = 1.0
 margin_right = 8.0
-margin_bottom = 49.0
+margin_bottom = 24.0
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -56,9 +55,9 @@ __meta__ = {
 anchor_top = 0.5
 anchor_bottom = 0.5
 margin_left = 2.0
-margin_top = 5.0
+margin_top = -6.0
 margin_right = 7.0
-margin_bottom = 10.0
+margin_bottom = -1.0
 texture = SubResource( 1 )
 __meta__ = {
 "_edit_use_anchors_": false
@@ -68,7 +67,7 @@ __meta__ = {
 margin_left = 8.0
 margin_top = 1.0
 margin_right = 9.0
-margin_bottom = 49.0
+margin_bottom = 24.0
 color = Color( 0.717647, 0.709804, 0.709804, 1 )
 __meta__ = {
 "_edit_use_anchors_": false
@@ -93,21 +92,21 @@ __meta__ = {
 }
 
 [node name="three_button" parent="Panel/swap_action" instance=ExtResource( 4 )]
-margin_left = 20.0
+margin_left = 22.0
 margin_top = 2.0
-margin_right = 29.0
+margin_right = 31.0
 margin_bottom = 11.0
 disabled = true
 
 [node name="dice_button" parent="Panel/swap_action" instance=ExtResource( 5 )]
-margin_left = 32.0
+margin_left = 34.0
 margin_top = 2.0
-margin_right = 41.0
+margin_right = 43.0
 margin_bottom = 11.0
 
 [node name="vseperator1" type="ColorRect" parent="Panel/swap_action"]
 margin_top = 12.0
-margin_right = 42.0
+margin_right = 44.0
 margin_bottom = 13.0
 color = Color( 0.270588, 0.243137, 0.243137, 1 )
 __meta__ = {
@@ -117,7 +116,7 @@ __meta__ = {
 [node name="heal_action" type="Control" parent="Panel"]
 margin_left = 9.0
 margin_top = 12.0
-margin_right = 52.0
+margin_right = 53.0
 margin_bottom = 25.0
 __meta__ = {
 "_edit_use_anchors_": false
@@ -134,32 +133,17 @@ __meta__ = {
 }
 
 [node name="three_button" parent="Panel/heal_action" instance=ExtResource( 4 )]
-margin_left = 20.0
+margin_left = 22.0
 margin_top = 2.0
-margin_right = 29.0
+margin_right = 31.0
 margin_bottom = 11.0
 disabled = true
 
 [node name="dice_button" parent="Panel/heal_action" instance=ExtResource( 5 )]
-margin_left = 32.0
+margin_left = 34.0
 margin_top = 2.0
-margin_right = 41.0
+margin_right = 43.0
 margin_bottom = 11.0
-
-[node name="vseperator1" type="ColorRect" parent="Panel/heal_action"]
-margin_top = 12.0
-margin_right = 42.0
-margin_bottom = 13.0
-color = Color( 0.270588, 0.243137, 0.243137, 1 )
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="Control" type="Control" parent="Panel"]
-margin_left = 9.0
-margin_top = 24.0
-margin_right = 52.0
-margin_bottom = 41.0
 
 [connection signal="pressed" from="Panel/swap_action/three_button" to="." method="_on_swap_three_button_pressed"]
 [connection signal="dice_rolled" from="Panel/swap_action/dice_button" to="." method="_on_dice_button_dice_rolled"]

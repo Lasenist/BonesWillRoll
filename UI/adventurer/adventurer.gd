@@ -43,6 +43,10 @@ onready var green_rune_1 = $Panel/rune_inventory/g_1
 onready var green_rune_2 = $Panel/rune_inventory/g_2
 onready var green_rune_3 = $Panel/rune_inventory/g_3
 
+onready var can_use_ability = false
+onready var ability_active_bg = $can_use_ability/Panel/active_bg
+var rune_level_just_spent = -1
+
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	match(type):
@@ -57,7 +61,7 @@ func _ready():
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
 	active_bg.visible = is_active
-	pass
+	ability_active_bg.visible = is_active && can_use_ability	
 
 func add(fieldEntity : FieldEntity):
 	
@@ -101,6 +105,11 @@ func update_inventory():
 	for i in green_rune_count:
 		green_runes[i].modulate = Color.white
 	
+	if red_rune_count == 3 || green_rune_count == 3 || blue_rune_count == 3 :
+		enable_ability()
+	else:
+		disable_ability()
+	
 	pass
 
 func update_total_wounds():
@@ -117,6 +126,17 @@ func update_total_wounds():
 	total_wounds_container.add_child(new_total_wounds)
 	pass
 
+
+func get_wounds():
+	var wound_values = []
+	for node in wounds_container.get_children():
+		wound_values.append(node.wound_value)
+	
+	wound_values.sort()
+	return wound_values
+	pass
+
+# heals one wound lower than the amount given
 func heal(amount : int):
 	var wound_values = []
 	for node in wounds_container.get_children():
@@ -140,3 +160,34 @@ func heal(amount : int):
 	emit_signal("finished_healing")
 	
 	pass
+
+func enable_ability():
+	can_use_ability = true
+	pass
+	
+func disable_ability():
+	can_use_ability = false
+	pass
+
+func _spend_runes():
+	if red_rune_count == 3 :
+		red_rune_count = 0
+		rune_level_just_spent = 0
+	elif green_rune_count == 3 :
+		green_rune_count = 0
+		rune_level_just_spent = 1
+	elif blue_rune_count == 3 :
+		blue_rune_count = 0
+		rune_level_just_spent = 2
+		
+	update_inventory()
+	pass
+
+func _on_fighter_attack_action_cut_three_pressed():
+	_spend_runes()
+
+func _on_fighter_attack_action_cut_dice_pressed():
+	_spend_runes()
+
+func _on_rogue_plant_action_ability_spend():
+	_spend_runes()

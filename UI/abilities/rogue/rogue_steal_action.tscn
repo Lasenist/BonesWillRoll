@@ -1,0 +1,54 @@
+[gd_scene load_steps=8 format=2]
+
+[ext_resource path="res://UI/three_button/three_button.tscn" type="PackedScene" id=1]
+[ext_resource path="res://UI/dice/dice_button.tscn" type="PackedScene" id=2]
+[ext_resource path="res://UI/abilities/rogue/rogue_steal_action.gd" type="Script" id=3]
+[ext_resource path="res://UI/abilities/rogue/rogue_ability_spritesheet.png" type="Texture" id=4]
+
+[sub_resource type="AtlasTexture" id=6]
+atlas = ExtResource( 4 )
+region = Rect2( 0, 7, 19, 5 )
+
+[sub_resource type="DynamicFont" id=4]
+size = 1
+
+[sub_resource type="DynamicFont" id=3]
+size = 1
+
+[node name="rogue_steal_action" type="Control"]
+margin_left = 9.0
+margin_top = 24.0
+margin_right = 53.0
+margin_bottom = 41.0
+script = ExtResource( 3 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="label" type="TextureRect" parent="."]
+margin_left = 1.0
+margin_top = 4.0
+margin_right = 12.0
+margin_bottom = 9.0
+texture = SubResource( 6 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="three_button" parent="." instance=ExtResource( 1 )]
+margin_left = 22.0
+margin_top = 2.0
+margin_right = 31.0
+margin_bottom = 11.0
+custom_fonts/font = SubResource( 4 )
+disabled = true
+
+[node name="dice_button" parent="." instance=ExtResource( 2 )]
+margin_left = 34.0
+margin_top = 2.0
+margin_right = 43.0
+margin_bottom = 11.0
+custom_fonts/font = SubResource( 3 )
+
+[connection signal="pressed" from="three_button" to="." method="_on_three_button_pressed"]
+[connection signal="dice_rolled" from="dice_button" to="." method="_on_dice_button_dice_rolled"]
