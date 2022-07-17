@@ -1,6 +1,7 @@
 extends Control
 
 signal finished_healing
+signal finished_healing_highest
 
 const NUMERAL_SCENES = [
 	preload("res://UI/numerals/one.tscn"),
@@ -169,6 +170,29 @@ func get_wounds():
 
 func get_total_rune_count():
 	return red_rune_count + green_rune_count + blue_rune_count
+
+func heal_highest(amount : int):
+	var wound_values = []
+	for node in wounds_container.get_children():
+		wound_values.append(node.wound_value)
+	
+	wound_values.sort()
+	var value_to_remove = null
+	
+	for index in range(wound_values.size() - 1, 0, -1):
+		if wound_values[index] <= amount :
+			value_to_remove = wound_values[index]
+			break
+	
+	if value_to_remove:
+		for node in wounds_container.get_children():
+			if node.wound_value == value_to_remove :
+				wounds_container.remove_child(node)
+				break
+	
+	update_total_wounds()
+	emit_signal("finished_healing_highest")
+	pass
 
 # heals one wound lower than the amount given
 func heal(amount : int):

@@ -218,14 +218,15 @@ func _on_field_post_swap_made():
 
 # HEAL THREE
 func _on_abilities_action_box_heal_three_pressed():
-	_get_active_character().heal(3)
+	_get_active_character().heal_highest(3)
 
 # HEAL DICE
 func _on_abilities_action_box_heal_dice_pressed(result : int):
-	_get_active_character().heal(result)
+	_get_active_character().heal_highest(result)
 
-func _on_finished_healing():
+func _on_finished_healing_highest():
 	current_state = GameState.END_ROUND
+	pass # Replace with function body.
 
 # --------------------------
 # FIGHTER - ATTACK
@@ -336,10 +337,15 @@ func _cleric_heal_wounds(character, level : int):
 func _on_cleric_cure_action_cure_three_pressed():
 	_cleric_heal_wounds(fighter, 3)
 	_cleric_heal_wounds(rogue, 3)
+	current_state = GameState.END_ROUND
 	pass # Replace with function body.
 
 
 func _on_cleric_cure_action_cure_dice_pressed(result : int):
 	_cleric_heal_wounds(fighter, result)
 	_cleric_heal_wounds(rogue, result)
+	current_state = GameState.END_ROUND
 	pass # Replace with function body.
+
+
+

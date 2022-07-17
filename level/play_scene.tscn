@@ -1,4 +1,4 @@
-[gd_scene load_steps=19 format=2]
+[gd_scene load_steps=22 format=2]
 
 [ext_resource path="res://UI/action/take.tscn" type="PackedScene" id=1]
 [ext_resource path="res://playing_field/field.tscn" type="PackedScene" id=2]
@@ -17,6 +17,7 @@
 [ext_resource path="res://bones_loop.wav" type="AudioStream" id=15]
 [ext_resource path="res://UI/dead.png" type="Texture" id=16]
 [ext_resource path="res://UI/dice/dice.tscn" type="PackedScene" id=17]
+[ext_resource path="res://UI/rotate_hints.png" type="Texture" id=18]
 
 [sub_resource type="GDScript" id=1]
 script/source = "extends Control
@@ -50,6 +51,14 @@ func _on_show_dice_roll_result(result : int):
 	$dice/AnimatedSprite.play()
 	pass
 "
+
+[sub_resource type="AtlasTexture" id=2]
+atlas = ExtResource( 18 )
+region = Rect2( 0, 0, 22, 22 )
+
+[sub_resource type="AtlasTexture" id=3]
+atlas = ExtResource( 18 )
+region = Rect2( 24, 0, 22, 22 )
 
 [node name="game" type="Control"]
 anchor_right = 1.0
@@ -232,7 +241,7 @@ position = Vector2( 10, 13 )
 scale = Vector2( 2, 2 )
 
 [node name="AnimatedSprite" parent="Control2/dice" index="0"]
-frame = 2
+frame = 3
 
 [node name="ColorRect" type="ColorRect" parent="Control2"]
 margin_left = 12.0
@@ -258,6 +267,30 @@ margin_top = 15.0
 margin_right = 26.0
 margin_bottom = 16.0
 
+[node name="Control3" type="Control" parent="."]
+margin_right = 40.0
+margin_bottom = 40.0
+
+[node name="rotateQ" type="TextureRect" parent="Control3"]
+margin_left = 132.0
+margin_top = 30.0
+margin_right = 154.0
+margin_bottom = 52.0
+texture = SubResource( 2 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="rotateQ2" type="TextureRect" parent="Control3"]
+margin_left = 216.0
+margin_top = 30.0
+margin_right = 238.0
+margin_bottom = 52.0
+texture = SubResource( 3 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
 [connection signal="post_selection_made" from="Control/field" to="." method="_on_field_post_selection_made"]
 [connection signal="post_swap_made" from="Control/field" to="." method="_on_field_post_swap_made"]
 [connection signal="pre_fill_field" from="Control/field" to="." method="_on_field_pre_fill_field"]
@@ -268,21 +301,21 @@ margin_bottom = 16.0
 [connection signal="heal_three_pressed" from="abilities_action_box" to="." method="_on_abilities_action_box_heal_three_pressed"]
 [connection signal="swap_dice_pressed" from="abilities_action_box" to="." method="_on_abilities_action_box_swap_dice_pressed"]
 [connection signal="swap_three_pressed" from="abilities_action_box" to="." method="_on_abilities_action_box_swap_three_pressed"]
-[connection signal="finished_healing" from="fighter" to="." method="_on_finished_healing"]
+[connection signal="finished_healing_highest" from="fighter" to="." method="_on_finished_healing_highest"]
 [connection signal="cut_dice_pressed" from="fighter/fighter_attack_action" to="." method="_on_fighter_attack_action_cut_dice_pressed"]
 [connection signal="cut_dice_pressed" from="fighter/fighter_attack_action" to="fighter" method="_on_fighter_attack_action_cut_dice_pressed"]
 [connection signal="cut_three_pressed" from="fighter/fighter_attack_action" to="." method="_on_fighter_attack_action_cut_three_pressed"]
 [connection signal="cut_three_pressed" from="fighter/fighter_attack_action" to="fighter" method="_on_fighter_attack_action_cut_three_pressed"]
 [connection signal="taunt_dice_pressed" from="fighter/fighter_taunt_action" to="." method="_on_fighter_taunt_action_taunt_dice_pressed"]
 [connection signal="taunt_three_pressed" from="fighter/fighter_taunt_action" to="." method="_on_fighter_taunt_action_taunt_three_pressed"]
-[connection signal="finished_healing" from="rogue" to="." method="_on_finished_healing"]
+[connection signal="finished_healing_highest" from="rogue" to="." method="_on_finished_healing_highest"]
 [connection signal="ability_spend" from="rogue/rogue_plant_action" to="rogue" method="_on_rogue_plant_action_ability_spend"]
 [connection signal="plant_dice_pressed" from="rogue/rogue_plant_action" to="." method="_on_rogue_plant_action_plant_dice_pressed"]
 [connection signal="plant_three_pressed" from="rogue/rogue_plant_action" to="." method="_on_rogue_plant_action_plant_three_pressed"]
 [connection signal="ability_spend" from="rogue/rogue_steal_action" to="rogue" method="_on_rogue_steal_action_ability_spend"]
 [connection signal="steal_dice_pressed" from="rogue/rogue_steal_action" to="." method="_on_rogue_steal_action_steal_dice_pressed"]
 [connection signal="steal_three_pressed" from="rogue/rogue_steal_action" to="." method="_on_rogue_steal_action_steal_three_pressed"]
-[connection signal="finished_healing" from="cleric" to="." method="_on_finished_healing"]
+[connection signal="finished_healing_highest" from="cleric" to="." method="_on_finished_healing_highest"]
 [connection signal="ability_spend" from="cleric/cleric_smite_action" to="cleric" method="_on_cleric_smite_action_ability_spend"]
 [connection signal="smite_dice_pressed" from="cleric/cleric_smite_action" to="." method="_on_cleric_smite_action_smite_dice_pressed"]
 [connection signal="smite_three_pressed" from="cleric/cleric_smite_action" to="." method="_on_cleric_smite_action_smite_three_pressed"]

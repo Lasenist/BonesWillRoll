@@ -188,6 +188,11 @@ func _process(delta):
 	if Input.is_action_just_pressed("rotate_selection_right") :
 		selection_direction += 1
 	
+	if selection_direction >= direction_order.size():
+		selection_direction = 0
+	elif selection_direction < 0 :
+		selection_direction = direction_order.size() -1		 
+	
 	selection_direction = clamp(selection_direction, 0, direction_order.size() - 1)
 
 	select_targets_message.visible = false
