@@ -188,8 +188,7 @@ func heal_highest(amount : int):
 	else:
 		var value_to_check = wound_values[0]
 		if value_to_check <= amount :
-			value_to_remove = value_to_check
-	
+			value_to_remove = value_to_check	
 	if value_to_remove:
 		for node in wounds_container.get_children():
 			if node.wound_value == value_to_remove :
