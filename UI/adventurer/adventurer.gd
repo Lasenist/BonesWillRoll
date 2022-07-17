@@ -77,6 +77,7 @@ func _process(delta):
 
 	var total_wounds = get_total_wounds()
 	injured_label.visible = false
+	dead_label.visible = false
 	is_injured = false
 	is_dead = false
 	if total_wounds >= 5 && total_wounds <= 10:

@@ -63,6 +63,10 @@ func _start_round_one(delta):
 func _start_round_two(delta):
 	take_action_box.is_active = false	
 	
+	if _get_active_character().is_dead :
+		current_state = GameState.END_ROUND
+		return
+	
 	for round_two_node in get_tree().get_nodes_in_group("round_two"):
 		round_two_node.is_active = true
 	
@@ -96,8 +100,20 @@ func _end_round(delta):
 			current_state = GameState.DEAD
 			$dead/active_bg.visible = true
 		elif rune_count < runes_needed :
-			_get_active_character().is_active = false
+			_get_active_character().is_active = false		
+			
 			current_active_adventurer += 1
+			if current_active_adventurer >= character_turn_order.size():
+				current_active_adventurer = 0
+			
+			if _get_active_character().is_dead :
+				current_active_adventurer += 1
+
+			if current_active_adventurer >= character_turn_order.size():
+				current_active_adventurer = 0
+			
+			if _get_active_character().is_dead :
+				current_active_adventurer += 1	
 			
 			if current_active_adventurer >= character_turn_order.size():
 				current_active_adventurer = 0

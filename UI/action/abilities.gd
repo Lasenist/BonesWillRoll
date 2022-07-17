@@ -41,6 +41,7 @@ func _on_swap_three_button_pressed():
 
 func _on_dice_button_dice_rolled(result : int):
 	emit_signal("swap_dice_pressed", result)
+	is_active = false
 	pass # Replace with function body.
 
 func _on_heal_three_button_pressed():
@@ -49,4 +50,5 @@ func _on_heal_three_button_pressed():
 
 func _on_heal_dice_button_dice_rolled(result : int):
 	emit_signal("heal_dice_pressed", result)
+	is_active = false
 	pass # Replace with function body.
