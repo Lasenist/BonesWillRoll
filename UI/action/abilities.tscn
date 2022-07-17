@@ -43,6 +43,7 @@ __meta__ = {
 }
 
 [node name="numeral_bg" type="ColorRect" parent="Panel/numeral"]
+visible = false
 margin_left = 1.0
 margin_top = 1.0
 margin_right = 8.0

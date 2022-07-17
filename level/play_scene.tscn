@@ -1,4 +1,4 @@
-[gd_scene load_steps=13 format=2]
+[gd_scene load_steps=17 format=2]
 
 [ext_resource path="res://UI/action/take.tscn" type="PackedScene" id=1]
 [ext_resource path="res://playing_field/field.tscn" type="PackedScene" id=2]
@@ -12,6 +12,10 @@
 [ext_resource path="res://UI/abilities/rogue/rogue_steal_action.tscn" type="PackedScene" id=10]
 [ext_resource path="res://UI/abilities/cleric/cleric_smite_action.tscn" type="PackedScene" id=11]
 [ext_resource path="res://UI/abilities/cleric/cleric_cure_action.tscn" type="PackedScene" id=12]
+[ext_resource path="res://UI/win.png" type="Texture" id=13]
+[ext_resource path="res://UI/collect_runes.png" type="Texture" id=14]
+[ext_resource path="res://bones_loop.wav" type="AudioStream" id=15]
+[ext_resource path="res://UI/dead.png" type="Texture" id=16]
 
 [node name="game" type="Control"]
 anchor_right = 1.0
@@ -45,15 +49,15 @@ margin_right = -176.0
 margin_bottom = -233.0
 
 [node name="abilities_action_box" parent="." groups=["round_two"] instance=ExtResource( 3 )]
-margin_left = 283.0
-margin_top = 95.0
-margin_right = -176.0
-margin_bottom = -178.0
+margin_left = 285.0
+margin_top = 141.0
+margin_right = -174.0
+margin_bottom = -132.0
 
 [node name="fighter" parent="." instance=ExtResource( 4 )]
-margin_left = 341.0
+margin_left = 349.0
 margin_top = 73.0
-margin_right = -97.0
+margin_right = -89.0
 margin_bottom = -177.0
 
 [node name="fighter_attack_action" parent="fighter" groups=["round_two"] instance=ExtResource( 7 )]
@@ -69,9 +73,9 @@ margin_right = 45.0
 margin_bottom = 43.0
 
 [node name="rogue" parent="." instance=ExtResource( 4 )]
-margin_left = 341.0
+margin_left = 349.0
 margin_top = 127.0
-margin_right = -114.0
+margin_right = -106.0
 margin_bottom = -122.0
 type = "Rogue"
 
@@ -88,9 +92,9 @@ margin_right = 82.0
 margin_bottom = 50.0
 
 [node name="cleric" parent="." instance=ExtResource( 4 )]
-margin_left = 341.0
+margin_left = 349.0
 margin_top = 182.0
-margin_right = -114.0
+margin_right = -106.0
 margin_bottom = -68.0
 type = "Cleric"
 
@@ -108,9 +112,76 @@ margin_bottom = 50.0
 
 [node name="end_round" parent="." instance=ExtResource( 6 )]
 margin_left = 285.0
-margin_top = 234.0
+margin_top = 233.0
 margin_right = -175.0
-margin_bottom = -53.0
+margin_bottom = -54.0
+
+[node name="collect_message" type="TextureRect" parent="."]
+margin_left = 281.0
+margin_top = 23.0
+margin_right = 341.0
+margin_bottom = 28.0
+texture = ExtResource( 14 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="win" type="Control" parent="."]
+margin_left = 284.0
+margin_top = 29.0
+margin_right = 336.0
+margin_bottom = 41.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="active_bg" type="ColorRect" parent="win"]
+visible = false
+margin_left = 1.0
+margin_top = 1.0
+margin_right = 8.0
+margin_bottom = 12.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="TextureRect" type="TextureRect" parent="win"]
+margin_right = 54.0
+margin_bottom = 13.0
+texture = ExtResource( 13 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="dead" type="Control" parent="."]
+margin_left = 349.0
+margin_top = 29.0
+margin_right = 389.0
+margin_bottom = 69.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="active_bg" type="ColorRect" parent="dead"]
+visible = false
+margin_left = 1.0
+margin_top = 1.0
+margin_right = 8.0
+margin_bottom = 12.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="TextureRect" type="TextureRect" parent="dead"]
+margin_right = 40.0
+margin_bottom = 40.0
+texture = ExtResource( 16 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
+stream = ExtResource( 15 )
 
 [connection signal="post_selection_made" from="Control/field" to="." method="_on_field_post_selection_made"]
 [connection signal="post_swap_made" from="Control/field" to="." method="_on_field_post_swap_made"]

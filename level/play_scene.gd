@@ -9,7 +9,9 @@ enum GameState {
 	START_ROUND_TWO
 	ROUND_TWO,
 	END_ROUND_TWO,
-	END_ROUND
+	END_ROUND,
+	DEAD,
+	WIN
 }
 var current_state = GameState.START_ROUND_ONE
 
@@ -37,6 +39,7 @@ onready var field = $Control/field
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
+	$AudioStreamPlayer.play()
 	pass # Replace with function body.
 
 func _get_active_character():
@@ -77,15 +80,31 @@ func _end_round(delta):
 		
 		end_round.is_active = true	
 		
-		_get_active_character().is_active = false
-		current_active_adventurer += 1
+		var runes_needed = 9 * 3
+		var rune_count = 0
+		var dead_characters = 0
+		for character in character_turn_order:
+			rune_count += character.get_total_rune_count()		
+			dead_characters += 1 if character.is_dead else 0
 		
-		if current_active_adventurer >= character_turn_order.size():
-			current_active_adventurer = 0
+		if dead_characters == character_turn_order.size():
+			current_state = GameState.DEAD
+			$dead/active_bg.visible = true
+		elif rune_count < runes_needed :
+			_get_active_character().is_active = false
+			current_active_adventurer += 1
+			
+			if current_active_adventurer >= character_turn_order.size():
+				current_active_adventurer = 0
+			
+			yield(get_tree().create_timer(1), "timeout")
+			end_round.is_active = false		
+			current_state = GameState.START_ROUND_ONE
+		else:
+			$win/active_bg.visible = true
+			current_state = GameState.WIN
+			pass	
 		
-		yield(get_tree().create_timer(1), "timeout")
-		end_round.is_active = false		
-		current_state = GameState.START_ROUND_ONE
 		is_round_ending = false
 	
 	pass
@@ -168,6 +187,7 @@ func _on_take_action_box_regular_action_taken():
 	field.is_selection_allowed = true
 
 func _on_take_action_box_dice_rolled(result : int):
+	current_selection_wait = SelectionWait.TAKE
 	field.selection_length = result
 	field.is_selection_allowed = true
 
@@ -199,6 +219,7 @@ func _on_abilities_action_box_heal_three_pressed():
 # HEAL DICE
 func _on_abilities_action_box_heal_dice_pressed(result : int):
 	_get_active_character().heal(result)
+	current_state = GameState.END_ROUND_TWO
 
 func _on_finished_healing():
 	current_state = GameState.END_ROUND

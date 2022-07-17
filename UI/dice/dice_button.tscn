@@ -22,7 +22,7 @@ __meta__ = {
 [node name="dice" parent="." instance=ExtResource( 1 )]
 
 [node name="AnimatedSprite" parent="dice" index="0"]
-frame = 0
+frame = 4
 
 [connection signal="pressed" from="." to="." method="_on_dice_button_pressed"]
 

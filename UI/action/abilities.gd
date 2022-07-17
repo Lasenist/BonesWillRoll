@@ -17,7 +17,7 @@ onready var three_button = $Panel/swap_action/three_button
 onready var dice_button = $Panel/swap_action/dice_button
 
 onready var heal_button = $Panel/heal_action/three_button
-onready var dice_heal_button = $Panel/heal_action/three_button
+onready var dice_heal_button = $Panel/heal_action/dice_button
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -48,5 +48,5 @@ func _on_heal_three_button_pressed():
 	pass # Replace with function body.
 
 func _on_heal_dice_button_dice_rolled(result : int):
-	emit_signal("heal_dice_pressed")
+	emit_signal("heal_dice_pressed", result)
 	pass # Replace with function body.

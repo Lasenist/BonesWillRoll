@@ -27,8 +27,14 @@ onready var cleric_name = $Panel/name_labels/cleric_name
 onready var wounds_container = $Panel/wounds_panel/HBoxContainer
 onready var total_wounds_container = $Panel/total_wounds/Control
 
+onready var injured_label = $Panel/state_labels/injured
+onready var dead_label = $Panel/state_labels/dead
+
+var is_dead = true
+var is_injured = true
+
 var red_rune_count = 0
-var blue_rune_count = 3
+var blue_rune_count = 0
 var green_rune_count = 0
 
 onready var red_rune_1 = $Panel/rune_inventory/r_1
@@ -62,6 +68,24 @@ func _ready():
 func _process(delta):
 	active_bg.visible = is_active
 	ability_active_bg.visible = is_active && can_use_ability && get_parent().current_state == get_parent().GameState.ROUND_TWO
+
+	if red_rune_count == 3 || green_rune_count == 3 || blue_rune_count == 3 :
+		enable_ability()
+	else:
+		disable_ability()
+
+	var total_wounds = get_total_wounds()
+	injured_label.visible = false
+	is_injured = false
+	is_dead = false
+	if total_wounds >= 5 && total_wounds <= 10:
+		injured_label.visible = true
+		is_injured = true
+		disable_ability()
+	elif total_wounds >= 10:
+		dead_label.visible = true		
+		is_dead = true
+		disable_ability()
 
 func add(fieldEntity : FieldEntity):
 	
@@ -110,18 +134,19 @@ func update_inventory():
 	for i in green_rune_count:
 		green_runes[i].modulate = Color.white
 	
-	if red_rune_count == 3 || green_rune_count == 3 || blue_rune_count == 3 :
-		enable_ability()
-	else:
-		disable_ability()
+
 	
 	pass
 
-func update_total_wounds():
+func get_total_wounds():
 	var total_wounds = 0
 	for node in wounds_container.get_children():
 		total_wounds += node.wound_value
 		pass
+	return total_wounds
+
+func update_total_wounds():
+	var total_wounds = get_total_wounds()
 	
 	total_wounds = clamp(total_wounds, 0, 10)
 	var new_total_wounds = NUMERAL_SCENES[total_wounds -1].instance()
@@ -141,6 +166,9 @@ func get_wounds():
 	wound_values.sort()
 	return wound_values
 	pass
+
+func get_total_rune_count():
+	return red_rune_count + green_rune_count + blue_rune_count
 
 # heals one wound lower than the amount given
 func heal(amount : int):

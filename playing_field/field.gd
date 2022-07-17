@@ -26,6 +26,8 @@ onready var tilemap = $TileMap
 # Scenes of enemies and runes on the field
 onready var entities = $TileMap/entities
 
+onready var select_targets_message = $select_targets
+
 # for hovering when taking
 var is_mouse_over_field = false
 var is_selection_allowed = false
@@ -54,8 +56,8 @@ func _ready():
 	
 	var entity_type_weighted_bag := RNGTools.WeightedBag.new()
 	entity_type_weighted_bag.weights = {
-		Enemy = 8,
-		Rune = 2
+		Enemy = 7,
+		Rune = 3
 	}	
 	
 	var enemy_level_weighted_bag := RNGTools.WeightedBag.new()
@@ -67,7 +69,7 @@ func _ready():
 		Five = 3
 	}
 	
-	build_incoming_entities(108, entity_type_weighted_bag, enemy_level_weighted_bag)
+	build_incoming_entities(1000, entity_type_weighted_bag, enemy_level_weighted_bag)
 	
 	field = create_2d_array(WIDTH, HEIGHT, null)
 	
@@ -188,7 +190,11 @@ func _process(delta):
 	
 	selection_direction = clamp(selection_direction, 0, direction_order.size() - 1)
 
+	select_targets_message.visible = false
 	clear_hover()
+	if is_selection_allowed || is_multi_select_allowed :
+		select_targets_message.visible = true
+	
 	if is_mouse_over_field && is_selection_allowed :
 		render_mouse_hover(direction_order[selection_direction], selection_length)
 		
