@@ -44,7 +44,7 @@ margin_top = 54.0
 margin_right = -176.0
 margin_bottom = -233.0
 
-[node name="abilities_action_box" parent="." instance=ExtResource( 3 )]
+[node name="abilities_action_box" parent="." groups=["round_two"] instance=ExtResource( 3 )]
 margin_left = 283.0
 margin_top = 95.0
 margin_right = -176.0
@@ -56,13 +56,13 @@ margin_top = 73.0
 margin_right = -97.0
 margin_bottom = -177.0
 
-[node name="fighter_attack_action" parent="fighter" instance=ExtResource( 7 )]
+[node name="fighter_attack_action" parent="fighter" groups=["round_two"] instance=ExtResource( 7 )]
 margin_left = 38.0
 margin_top = 21.0
 margin_right = 82.0
 margin_bottom = 34.0
 
-[node name="fighter_taunt_action" parent="fighter" instance=ExtResource( 8 )]
+[node name="fighter_taunt_action" parent="fighter" groups=["round_two"] instance=ExtResource( 8 )]
 margin_left = 38.0
 margin_top = 33.0
 margin_right = 45.0
@@ -75,13 +75,13 @@ margin_right = -114.0
 margin_bottom = -122.0
 type = "Rogue"
 
-[node name="rogue_plant_action" parent="rogue" instance=ExtResource( 9 )]
+[node name="rogue_plant_action" parent="rogue" groups=["round_two"] instance=ExtResource( 9 )]
 margin_left = 38.0
 margin_top = 21.0
 margin_right = 82.0
 margin_bottom = 38.0
 
-[node name="rogue_steal_action" parent="rogue" instance=ExtResource( 10 )]
+[node name="rogue_steal_action" parent="rogue" groups=["round_two"] instance=ExtResource( 10 )]
 margin_left = 38.0
 margin_top = 33.0
 margin_right = 82.0
@@ -94,13 +94,13 @@ margin_right = -114.0
 margin_bottom = -68.0
 type = "Cleric"
 
-[node name="cleric_smite_action" parent="cleric" instance=ExtResource( 11 )]
+[node name="cleric_smite_action" parent="cleric" groups=["round_two"] instance=ExtResource( 11 )]
 margin_left = 38.0
 margin_top = 21.0
 margin_right = 82.0
 margin_bottom = 38.0
 
-[node name="cleric_cure_action" parent="cleric" instance=ExtResource( 12 )]
+[node name="cleric_cure_action" parent="cleric" groups=["round_two"] instance=ExtResource( 12 )]
 margin_left = 38.0
 margin_top = 33.0
 margin_right = 82.0

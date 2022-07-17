@@ -52,9 +52,10 @@ func _start_round_one(delta):
 	return
 
 func _start_round_two(delta):
-	take_action_box.is_active = false
+	take_action_box.is_active = false	
 	
-	abilities_action_box.is_active = true
+	for round_two_node in get_tree().get_nodes_in_group("round_two"):
+		round_two_node.is_active = true
 	
 	current_state = GameState.ROUND_TWO
 	return
@@ -63,7 +64,8 @@ var is_round_ending = false
 func _end_round(delta):	
 	if !is_round_ending :
 		is_round_ending = true
-		abilities_action_box.is_active = false
+		for round_two_node in get_tree().get_nodes_in_group("round_two"):
+			round_two_node.is_active = false
 		
 		end_round.is_active = true	
 		

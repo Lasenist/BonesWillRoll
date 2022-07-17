@@ -61,7 +61,7 @@ func _ready():
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
 	active_bg.visible = is_active
-	ability_active_bg.visible = is_active && can_use_ability	
+	ability_active_bg.visible = is_active && can_use_ability && get_parent().current_state == get_parent().GameState.ROUND_TWO
 
 func add(fieldEntity : FieldEntity):
 	
@@ -81,6 +81,10 @@ func add(fieldEntity : FieldEntity):
 	pass
 
 func update_inventory():
+	red_rune_count = clamp(red_rune_count, 0, 3)
+	green_rune_count = clamp(green_rune_count, 0, 3)
+	blue_rune_count = clamp(blue_rune_count, 0, 3)
+	
 	
 	var red_runes = [red_rune_1, red_rune_2, red_rune_3]
 	var blue_runes = [blue_rune_1, blue_rune_2, blue_rune_3]
@@ -123,7 +127,8 @@ func update_total_wounds():
 	
 	var old = total_wounds_container.get_child(0)
 	total_wounds_container.remove_child(old)
-	total_wounds_container.add_child(new_total_wounds)
+	if total_wounds == 0 :
+		total_wounds_container.add_child(new_total_wounds)
 	pass
 
 
