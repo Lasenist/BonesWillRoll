@@ -1,4 +1,4 @@
-[gd_scene load_steps=11 format=2]
+[gd_scene load_steps=13 format=2]
 
 [ext_resource path="res://UI/action/take.tscn" type="PackedScene" id=1]
 [ext_resource path="res://playing_field/field.tscn" type="PackedScene" id=2]
@@ -10,6 +10,8 @@
 [ext_resource path="res://UI/abilities/fighter/fighter_taunt_action.tscn" type="PackedScene" id=8]
 [ext_resource path="res://UI/abilities/rogue/rogue_plant_action.tscn" type="PackedScene" id=9]
 [ext_resource path="res://UI/abilities/rogue/rogue_steal_action.tscn" type="PackedScene" id=10]
+[ext_resource path="res://UI/abilities/cleric/cleric_smite_action.tscn" type="PackedScene" id=11]
+[ext_resource path="res://UI/abilities/cleric/cleric_cure_action.tscn" type="PackedScene" id=12]
 
 [node name="game" type="Control"]
 anchor_right = 1.0
@@ -62,9 +64,9 @@ margin_bottom = 34.0
 
 [node name="fighter_taunt_action" parent="fighter" instance=ExtResource( 8 )]
 margin_left = 38.0
-margin_top = 34.0
+margin_top = 33.0
 margin_right = 45.0
-margin_bottom = 44.0
+margin_bottom = 43.0
 
 [node name="rogue" parent="." instance=ExtResource( 4 )]
 margin_left = 341.0
@@ -81,9 +83,9 @@ margin_bottom = 38.0
 
 [node name="rogue_steal_action" parent="rogue" instance=ExtResource( 10 )]
 margin_left = 38.0
-margin_top = 34.0
+margin_top = 33.0
 margin_right = 82.0
-margin_bottom = 51.0
+margin_bottom = 50.0
 
 [node name="cleric" parent="." instance=ExtResource( 4 )]
 margin_left = 341.0
@@ -91,6 +93,18 @@ margin_top = 182.0
 margin_right = -114.0
 margin_bottom = -68.0
 type = "Cleric"
+
+[node name="cleric_smite_action" parent="cleric" instance=ExtResource( 11 )]
+margin_left = 38.0
+margin_top = 21.0
+margin_right = 82.0
+margin_bottom = 38.0
+
+[node name="cleric_cure_action" parent="cleric" instance=ExtResource( 12 )]
+margin_left = 38.0
+margin_top = 33.0
+margin_right = 82.0
+margin_bottom = 50.0
 
 [node name="end_round" parent="." instance=ExtResource( 6 )]
 margin_left = 285.0
@@ -119,5 +133,13 @@ margin_bottom = -53.0
 [connection signal="ability_spend" from="rogue/rogue_plant_action" to="rogue" method="_on_rogue_plant_action_ability_spend"]
 [connection signal="plant_dice_pressed" from="rogue/rogue_plant_action" to="." method="_on_rogue_plant_action_plant_dice_pressed"]
 [connection signal="plant_three_pressed" from="rogue/rogue_plant_action" to="." method="_on_rogue_plant_action_plant_three_pressed"]
+[connection signal="ability_spend" from="rogue/rogue_steal_action" to="rogue" method="_on_rogue_steal_action_ability_spend"]
+[connection signal="steal_dice_pressed" from="rogue/rogue_steal_action" to="." method="_on_rogue_steal_action_steal_dice_pressed"]
 [connection signal="steal_three_pressed" from="rogue/rogue_steal_action" to="." method="_on_rogue_steal_action_steal_three_pressed"]
 [connection signal="finished_healing" from="cleric" to="." method="_on_finished_healing"]
+[connection signal="ability_spend" from="cleric/cleric_smite_action" to="cleric" method="_on_cleric_smite_action_ability_spend"]
+[connection signal="smite_dice_pressed" from="cleric/cleric_smite_action" to="." method="_on_cleric_smite_action_smite_dice_pressed"]
+[connection signal="smite_three_pressed" from="cleric/cleric_smite_action" to="." method="_on_cleric_smite_action_smite_three_pressed"]
+[connection signal="ability_spend" from="cleric/cleric_cure_action" to="cleric" method="_on_cleric_cure_action2_ability_spend"]
+[connection signal="cure_dice_pressed" from="cleric/cleric_cure_action" to="." method="_on_cleric_cure_action_cure_dice_pressed"]
+[connection signal="cure_three_pressed" from="cleric/cleric_cure_action" to="." method="_on_cleric_cure_action_cure_three_pressed"]

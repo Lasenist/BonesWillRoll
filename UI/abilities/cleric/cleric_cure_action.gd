@@ -1,7 +1,7 @@
 extends Control
 
-signal steal_three_pressed
-signal steal_dice_pressed
+signal cure_three_pressed
+signal cure_dice_pressed
 
 onready var three_button = $three_button
 onready var dice_button = $dice_button
@@ -28,11 +28,11 @@ func _process(delta):
 
 func _on_three_button_pressed():
 	emit_signal("ability_spend")
-	emit_signal("steal_three_pressed")
+	emit_signal("cure_three_pressed")
 	pass # Replace with function body.
 
 
 func _on_dice_button_dice_rolled(result : int):
 	emit_signal("ability_spend")
-	emit_signal("steal_dice_pressed", result)
+	emit_signal("cure_dice_pressed", result)
 	pass # Replace with function body.

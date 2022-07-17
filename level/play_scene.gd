@@ -14,6 +14,7 @@ var current_state = GameState.START_ROUND_ONE
 
 enum SelectionWait {
 	TAKE,
+	SWAP,
 	FIGHTER_ATTACK,
 	ROGUE_PLANT,
 	ROGUE_STEAL
@@ -102,16 +103,23 @@ func _on_field_selection_made(selected_entities):
 			for entity in selected_entities :
 				_get_active_character().add(entity)
 				pass
+		SelectionWait.SWAP :
+			field.shift_selection(selected_entities)
+			pass
 		SelectionWait.FIGHTER_ATTACK :
 			# The field removes them anyway, so do nothing			
 			pass
 		SelectionWait.ROGUE_PLANT :
 			# the field removes, filled with runes in pre-fill stage below
 			pass
+		SelectionWait.ROGUE_STEAL :
+			for entity in selected_entities :
+				_get_active_character().add(entity)
+				pass
 	pass # Replace with function body.
 	
 func _on_field_pre_fill_field():
-	match current_selection_wait:
+	match current_selection_wait:	
 		SelectionWait.ROGUE_PLANT:
 			var rune_entity = FieldEntity.new()
 			rune_entity.type = "rune"
@@ -125,9 +133,13 @@ func _on_field_post_selection_made():
 	match current_selection_wait :
 		SelectionWait.TAKE :
 			current_state = GameState.START_ROUND_TWO
+		SelectionWait.SWAP :
+			current_state = GameState.END_ROUND
 		SelectionWait.FIGHTER_ATTACK :
 			current_state = GameState.END_ROUND
 		SelectionWait.ROGUE_PLANT :
+			current_state = GameState.END_ROUND
+		SelectionWait.ROGUE_STEAL :
 			current_state = GameState.END_ROUND
 		_:
 			print("Selection Reason Not Found!!")
@@ -153,11 +165,13 @@ func _on_take_action_box_dice_rolled(result : int):
 
 # SWAP THREE
 func _on_abilities_action_box_swap_three_pressed():
+	current_selection_wait = SelectionWait.SWAP
 	field.selected_amount_to_reach = 3
 	field.is_multi_select_allowed = true
 
 # SWAP DICE
 func _on_abilities_action_box_swap_dice_pressed(result : int):
+	current_selection_wait = SelectionWait.SWAP
 	field.selected_amount_to_reach = result
 	field.is_multi_select_allowed = true
 
@@ -208,7 +222,7 @@ func _fighter_take_wounds_from(character, level):
 	var wounds = character.get_wounds()
 	var wounds_to_take = []
 	for wound in wounds :
-		if wound <= 3 :
+		if wound <= level :
 			wounds_to_take.append(wound)
 	
 	for wound_to_take in wounds_to_take:
@@ -217,10 +231,6 @@ func _fighter_take_wounds_from(character, level):
 		new_wound.type = "enemy"
 		new_wound.level = wound_to_take - 1
 		fighter.add(new_wound)
-		pass
-	pass
-	
-	pass # Replace with function body.
 
 
 # --------------------------
@@ -241,3 +251,52 @@ func _on_rogue_steal_action_steal_three_pressed():
 	current_selection_wait = SelectionWait.ROGUE_STEAL
 	field.is_multi_select_allowed = true
 	field.selected_amount_to_reach = 3
+
+func _on_rogue_steal_action_steal_dice_pressed(result : int):
+	current_selection_wait = SelectionWait.ROGUE_STEAL
+	field.is_multi_select_allowed = true
+	field.selected_amount_to_reach = result
+	pass # Replace with function body.
+
+func _cleric_smite(damage : int):
+	for x in field.WIDTH:
+		for y in field.HEIGHT:
+			var cell = field.field[x][y]
+			if cell is FieldEntity:
+				var fe : FieldEntity = cell
+				if fe.type == "enemy" && fe.level < damage :
+					field.field[x][y] = null				
+	
+	field.render()
+	yield(get_tree().create_timer(1), "timeout")
+	field.fill_gaps()
+	field.render()
+	current_state = GameState.END_ROUND
+	pass
+
+func _on_cleric_smite_action_smite_three_pressed():
+	_cleric_smite(3)	
+
+func _on_cleric_smite_action_smite_dice_pressed(result : int):
+	_cleric_smite(result)
+
+func _cleric_heal_wounds(character, level : int):
+	var wounds = character.get_wounds()
+	var wounds_to_heal = []
+	for wound in wounds :
+		if wound <= level :
+			wounds_to_heal.append(wound)
+	
+	for wound_to_heal in wounds_to_heal:
+		character.heal(wound_to_heal)
+
+func _on_cleric_cure_action_cure_three_pressed():
+	_cleric_heal_wounds(fighter, 3)
+	_cleric_heal_wounds(rogue, 3)
+	pass # Replace with function body.
+
+
+func _on_cleric_cure_action_cure_dice_pressed(result : int):
+	_cleric_heal_wounds(fighter, result)
+	_cleric_heal_wounds(rogue, result)
+	pass # Replace with function body.

@@ -28,7 +28,7 @@ onready var wounds_container = $Panel/wounds_panel/HBoxContainer
 onready var total_wounds_container = $Panel/total_wounds/Control
 
 var red_rune_count = 0
-var blue_rune_count = 0
+var blue_rune_count = 3
 var green_rune_count = 0
 
 onready var red_rune_1 = $Panel/rune_inventory/r_1
@@ -190,4 +190,13 @@ func _on_fighter_attack_action_cut_dice_pressed():
 	_spend_runes()
 
 func _on_rogue_plant_action_ability_spend():
+	_spend_runes()
+
+func _on_rogue_steal_action_ability_spend():
+	_spend_runes()
+
+func _on_cleric_smite_action_ability_spend():
+	_spend_runes()
+
+func _on_cleric_cure_action2_ability_spend():
 	_spend_runes()

@@ -27,6 +27,7 @@ _global_script_class_icons={
 [application]
 
 config/name="BonesWillRoll"
+run/main_scene="res://level/play_scene.tscn"
 config/icon="res://icon.png"
 
 [display]

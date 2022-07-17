@@ -150,6 +150,8 @@ func fill_gaps_with_rune(entity : FieldEntity):
 			pass
 	pass
 
+
+
 func render():
 	
 	for i in entities.get_children():
@@ -158,20 +160,21 @@ func render():
 	for x in WIDTH:
 		for y in HEIGHT:
 			var entity : FieldEntity = field[x][y]
-			match(entity.type):
-				"enemy":
-					var enemy = ENEMY_SCENE.instance()
-					enemy.level = entity.level
-					enemy.position = tilemap.map_to_world(Vector2(x,y))
-					entities.add_child(enemy)
-					pass
-				"rune":
-					var rune = RUNE_SCENE.instance()
-					rune.type = entity.level
-					rune.position = tilemap.map_to_world(Vector2(x,y))
-					entities.add_child(rune)
-					pass
-			pass
+			if entity :
+				match(entity.type):
+					"enemy":
+						var enemy = ENEMY_SCENE.instance()
+						enemy.level = entity.level
+						enemy.position = tilemap.map_to_world(Vector2(x,y))
+						entities.add_child(enemy)
+						pass
+					"rune":
+						var rune = RUNE_SCENE.instance()
+						rune.type = entity.level
+						rune.position = tilemap.map_to_world(Vector2(x,y))
+						entities.add_child(rune)
+						pass
+				pass
 		pass
 	pass
 
@@ -261,6 +264,16 @@ func take_hover():
 	
 	pass
 
+var last_selected_cells = []
+func shift_selection(selected_entities):
+	var shifted_array = _shiftRight(selected_entities)
+
+	var count = 0
+	for cell in selected_cells:
+		field[cell.x][cell.y] = shifted_array[count]
+		count += 1
+	pass
+
 func select_hover():
 	var hovered_cells = tilemap.get_used_cells_by_id(CELL_HOVER)
 	
@@ -274,18 +287,16 @@ func select_hover():
 		var selected_entities = []
 		for cell in selected_cells:
 			selected_entities.append(field[cell.x][cell.y])
-		
-		var shifted_array = _shiftRight(selected_entities)
-		
-		var count = 0
-		for cell in selected_cells:
-			field[cell.x][cell.y] = shifted_array[count]
-			count += 1
-		
-		
+			field[cell.x][cell.y] = null
+
+		last_selected_cells = selected_cells
+		emit_signal("selection_made", selected_entities)
 		clear_selection()
+		emit_signal("pre_fill_field")
+		fill_gaps()
 		render()
-		emit_signal("post_swap_made")
+		emit_signal("post_selection_made")
+		last_selected_cells = null
 	
 		
 func _shiftRight( array : Array ):
