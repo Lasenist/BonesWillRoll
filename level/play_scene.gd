@@ -8,6 +8,7 @@ enum GameState {
 	ROUND_ONE,
 	START_ROUND_TWO
 	ROUND_TWO,
+	END_ROUND_TWO,
 	END_ROUND
 }
 var current_state = GameState.START_ROUND_ONE
@@ -60,6 +61,13 @@ func _start_round_two(delta):
 	current_state = GameState.ROUND_TWO
 	return
 
+var ert_done = false
+func _end_round_two(delta):
+	if !ert_done :
+		for round_two_node in get_tree().get_nodes_in_group("round_two"):
+			round_two_node.is_active = false
+		ert_done = true	
+
 var is_round_ending = false
 func _end_round(delta):	
 	if !is_round_ending :
@@ -91,6 +99,8 @@ func _process(delta):
 			pass
 		GameState.START_ROUND_TWO:
 			_start_round_two(delta)
+		GameState.END_ROUND_TWO:
+			_end_round_two(delta)
 		GameState.END_ROUND:
 			_end_round(delta)
 	pass
@@ -170,12 +180,14 @@ func _on_abilities_action_box_swap_three_pressed():
 	current_selection_wait = SelectionWait.SWAP
 	field.selected_amount_to_reach = 3
 	field.is_multi_select_allowed = true
+	current_state = GameState.END_ROUND_TWO
 
 # SWAP DICE
 func _on_abilities_action_box_swap_dice_pressed(result : int):
 	current_selection_wait = SelectionWait.SWAP
 	field.selected_amount_to_reach = result
 	field.is_multi_select_allowed = true
+	current_state = GameState.END_ROUND_TWO
 
 func _on_field_post_swap_made():
 	current_state = GameState.END_ROUND
@@ -199,11 +211,13 @@ func _on_fighter_attack_action_cut_three_pressed():
 	current_selection_wait = SelectionWait.FIGHTER_ATTACK
 	field.selection_length = 3
 	field.is_selection_allowed = true
+	current_state = GameState.END_ROUND_TWO
 
 func _on_fighter_attack_action_cut_dice_pressed(result : int):
 	current_selection_wait = SelectionWait.FIGHTER_ATTACK
 	field.selection_length = result
 	field.is_selection_allowed = true
+	current_state = GameState.END_ROUND_TWO
 
 # --------------------------
 # FIGHTER - TAUNT
@@ -242,23 +256,26 @@ func _on_rogue_plant_action_plant_three_pressed():
 	current_selection_wait = SelectionWait.ROGUE_PLANT
 	field.is_selection_allowed = true
 	field.selection_length = 3
+	current_state = GameState.END_ROUND_TWO
 
 func _on_rogue_plant_action_plant_dice_pressed(result : int):
 	current_selection_wait = SelectionWait.ROGUE_PLANT
 	field.is_selection_allowed = true
 	field.selection_length = result
+	current_state = GameState.END_ROUND_TWO
 
 
 func _on_rogue_steal_action_steal_three_pressed():
 	current_selection_wait = SelectionWait.ROGUE_STEAL
 	field.is_multi_select_allowed = true
 	field.selected_amount_to_reach = 3
+	current_state = GameState.END_ROUND_TWO
 
 func _on_rogue_steal_action_steal_dice_pressed(result : int):
 	current_selection_wait = SelectionWait.ROGUE_STEAL
 	field.is_multi_select_allowed = true
 	field.selected_amount_to_reach = result
-	pass # Replace with function body.
+	current_state = GameState.END_ROUND_TWO
 
 func _cleric_smite(damage : int):
 	for x in field.WIDTH:

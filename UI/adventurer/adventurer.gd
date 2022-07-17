@@ -65,20 +65,21 @@ func _process(delta):
 
 func add(fieldEntity : FieldEntity):
 	
-	if fieldEntity.type == "enemy" :
-		var numeral_scene = NUMERAL_SCENES[fieldEntity.level].instance()
-		wounds_container.add_child(numeral_scene)
-		update_total_wounds()
+	if fieldEntity:
+		if fieldEntity.type == "enemy" :
+			var numeral_scene = NUMERAL_SCENES[fieldEntity.level].instance()
+			wounds_container.add_child(numeral_scene)
+			update_total_wounds()
+			pass
+		
+		elif fieldEntity.type == "rune" :
+			match(fieldEntity.level):
+				0: red_rune_count += 1
+				1: green_rune_count += 1
+				2: blue_rune_count += 1
+			pass
+			update_inventory()
 		pass
-	
-	elif fieldEntity.type == "rune" :
-		match(fieldEntity.level):
-			0: red_rune_count += 1
-			1: green_rune_count += 1
-			2: blue_rune_count += 1
-		pass
-		update_inventory()
-	pass
 
 func update_inventory():
 	red_rune_count = clamp(red_rune_count, 0, 3)
