@@ -33,7 +33,7 @@ onready var dead_label = $Panel/state_labels/dead
 var is_dead = true
 var is_injured = true
 
-var red_rune_count = 3
+var red_rune_count = 0
 var blue_rune_count = 0
 var green_rune_count = 0
 
