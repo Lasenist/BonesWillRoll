@@ -252,21 +252,22 @@ func render_mouse_hover(p_dir : Vector2, p_length : int):
 	pass
 
 func take_hover():
-	is_selection_allowed = false
 	var hovered_cells = tilemap.get_used_cells_by_id(CELL_HOVER)
 	
-	var selected_entities = []
-	
-	for vector in hovered_cells:
-		selected_entities.append(field[vector.x][vector.y])
-		field[vector.x][vector.y] = null
-	
-	emit_signal("selection_made", selected_entities)
-	clear_hover()
-	emit_signal("pre_fill_field")
-	fill_gaps()
-	render()
-	emit_signal("post_selection_made")
+	if hovered_cells.size() == selection_length:	
+		is_selection_allowed = false
+		var selected_entities = []
+		
+		for vector in hovered_cells:
+			selected_entities.append(field[vector.x][vector.y])
+			field[vector.x][vector.y] = null
+		
+		emit_signal("selection_made", selected_entities)
+		clear_hover()
+		emit_signal("pre_fill_field")
+		fill_gaps()
+		render()
+		emit_signal("post_selection_made")
 	
 	pass
 
