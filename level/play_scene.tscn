@@ -160,6 +160,7 @@ margin_right = -175.0
 margin_bottom = -54.0
 
 [node name="collect_message" type="TextureRect" parent="."]
+visible = false
 margin_left = 281.0
 margin_top = 23.0
 margin_right = 341.0
@@ -241,7 +242,7 @@ position = Vector2( 10, 13 )
 scale = Vector2( 2, 2 )
 
 [node name="AnimatedSprite" parent="Control2/dice" index="0"]
-frame = 1
+frame = 5
 
 [node name="ColorRect" type="ColorRect" parent="Control2"]
 margin_left = 12.0
@@ -314,6 +315,9 @@ margin_top = 140.0
 margin_right = 326.0
 margin_bottom = 180.0
 mouse_filter = 2
+__meta__ = {
+"_edit_use_anchors_": false
+}
 
 [node name="pos3" type="Control" parent="positions"]
 margin_left = 286.0

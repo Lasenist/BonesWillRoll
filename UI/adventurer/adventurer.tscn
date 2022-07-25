@@ -1,4 +1,4 @@
-[gd_scene load_steps=16 format=2]
+[gd_scene load_steps=18 format=2]
 
 [ext_resource path="res://UI/adventurer/adventurer_name_spritesheet.png" type="Texture" id=1]
 [ext_resource path="res://new_theme.tres" type="Theme" id=2]
@@ -7,6 +7,7 @@
 [ext_resource path="res://UI/numerals/two.tscn" type="PackedScene" id=5]
 [ext_resource path="res://UI/adventurer/state_spritesheet.png" type="Texture" id=6]
 [ext_resource path="res://UI/numerals/ten.tscn" type="PackedScene" id=7]
+[ext_resource path="res://UI/numerals/label_spritesheet.png" type="Texture" id=8]
 
 [sub_resource type="AtlasTexture" id=1]
 atlas = ExtResource( 1 )
@@ -27,6 +28,10 @@ region = Rect2( 0, 0, 29, 5 )
 [sub_resource type="AtlasTexture" id=8]
 atlas = ExtResource( 6 )
 region = Rect2( 31, 0, 15, 5 )
+
+[sub_resource type="AtlasTexture" id=9]
+atlas = ExtResource( 8 )
+region = Rect2( 0, 0, 26, 5 )
 
 [sub_resource type="AtlasTexture" id=2]
 atlas = ExtResource( 3 )
@@ -52,7 +57,7 @@ __meta__ = {
 
 [node name="Panel" type="Panel" parent="."]
 margin_right = 85.0
-margin_bottom = 50.0
+margin_bottom = 48.0
 theme = ExtResource( 2 )
 __meta__ = {
 "_edit_use_anchors_": false
@@ -110,8 +115,8 @@ __meta__ = {
 }
 
 [node name="state_labels" type="Control" parent="Panel"]
-margin_right = 40.0
-margin_bottom = 40.0
+margin_right = 47.0
+margin_bottom = 8.0
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -142,8 +147,18 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="wounds_panel" type="Panel" parent="Panel"]
+[node name="wounds_label" type="TextureRect" parent="Panel"]
 margin_left = 2.0
+margin_top = 12.0
+margin_right = 28.0
+margin_bottom = 17.0
+texture = SubResource( 9 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="wounds_panel" type="Panel" parent="Panel"]
+margin_left = 29.0
 margin_top = 10.0
 margin_right = 59.0
 margin_bottom = 19.0
@@ -222,9 +237,9 @@ margin_left = 2.0
 margin_right = 7.0
 
 [node name="rune_inventory" type="Panel" parent="Panel"]
-margin_left = 2.0
+margin_left = 1.0
 margin_top = 20.0
-margin_right = 30.0
+margin_right = 29.0
 margin_bottom = 48.0
 __meta__ = {
 "_edit_use_anchors_": false
@@ -398,16 +413,16 @@ margin_bottom = 16.0
 [node name="ColorRect" type="ColorRect" parent="can_use_ability"]
 margin_left = 1.0
 margin_top = -1.0
-margin_right = 45.0
+margin_right = 47.0
 color = Color( 0.717647, 0.709804, 0.709804, 1 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
 [node name="ColorRect3" type="ColorRect" parent="can_use_ability"]
-margin_left = 45.0
-margin_top = -1.0
-margin_right = 46.0
+margin_left = 47.0
+margin_top = 1.0
+margin_right = 48.0
 margin_bottom = 27.0
 color = Color( 0.717647, 0.709804, 0.709804, 1 )
 __meta__ = {
@@ -417,7 +432,7 @@ __meta__ = {
 [node name="ColorRect2" type="ColorRect" parent="can_use_ability"]
 margin_left = 1.0
 margin_top = 26.0
-margin_right = 45.0
+margin_right = 47.0
 margin_bottom = 27.0
 color = Color( 0.717647, 0.709804, 0.709804, 1 )
 __meta__ = {

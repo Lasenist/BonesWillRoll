@@ -44,7 +44,6 @@ onready var field = $Control/field
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	$AudioStreamPlayer.play()
 	pass # Replace with function body.
 
 func _get_active_character():
@@ -93,7 +92,6 @@ func _end_round(delta):
 		var rune_count = 0
 		var dead_characters = 0
 		for character in character_turn_order:
-			rune_count += character.get_total_rune_count()		
 			dead_characters += 1 if character.is_dead else 0
 		
 		if dead_characters == character_turn_order.size():
