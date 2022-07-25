@@ -16,6 +16,15 @@ const CELL_HOVER = 1
 const CELL_ERR = 2
 const CELL_SELECTION = 3
 
+enum FieldState {
+	NONE,
+	LINE_SELECT,
+	LINE_SELECT_COMPLETION
+	MULTI_SELECT,
+	MULTI_SELECTION_COMPLETION
+}
+var current_state = FieldState.NONE
+
 # Queue of incoming entities
 var incoming_entities = []
 # The current playing field, a 2d array
@@ -180,7 +189,8 @@ func render():
 		pass
 	pass
 
-func _process(delta):
+func _line_select(delta):
+	select_targets_message.visible = true
 	
 	if Input.is_action_just_pressed("rotate_selection_left") :
 		selection_direction -= 1
@@ -194,24 +204,75 @@ func _process(delta):
 		selection_direction = direction_order.size() -1		 
 	
 	selection_direction = clamp(selection_direction, 0, direction_order.size() - 1)
-
-	select_targets_message.visible = false
-	clear_hover()
-	if is_selection_allowed || is_multi_select_allowed :
-		select_targets_message.visible = true
 	
-	if is_mouse_over_field && is_selection_allowed :
+	if is_mouse_over_field :
 		render_mouse_hover(direction_order[selection_direction], selection_length)
-		
 		if Input.is_mouse_button_pressed(1) :
-			take_hover()	
-	elif is_multi_select_allowed :
+			var hovered_cells = take_hover()
+			
+			if hovered_cells.size() == selection_length:	
+				is_selection_allowed = false
+				var selected_entities = []
+				
+				for vector in hovered_cells:
+					selected_entities.append(field[vector.x][vector.y])
+					field[vector.x][vector.y] = null
+				
+				emit_signal("selection_made", selected_entities)
+				clear_hover()
+				emit_signal("pre_fill_field")
+				fill_gaps()
+				render()
+				emit_signal("post_selection_made")
+
+			current_state = FieldState.NONE
+			return
+	pass
+
+func _multi_select(delta):
+	select_targets_message.visible = true
+	
+	if is_mouse_over_field :
 		render_mouse_hover(direction_order[selection_direction], 1)
 	
 		if Input.is_mouse_button_pressed(1) :
-			select_hover()
-			pass
+			var selected_cells = select_hover()
+			
+			if selected_cells.size() == selected_amount_to_reach :
+				is_multi_select_allowed = false
+		
+				var selected_entities = []
+				for cell in selected_cells:
+					selected_entities.append(field[cell.x][cell.y])
+					field[cell.x][cell.y] = null
+
+				last_selected_cells = selected_cells
+				emit_signal("selection_made", selected_entities)
+				clear_selection()
+				emit_signal("pre_fill_field")
+				fill_gaps()
+				render()
+				emit_signal("post_selection_made")
+				last_selected_cells = null
+				selected_cells = []
+	pass
+
+func _process(delta):
+	select_targets_message.visible = false
+	clear_hover()
 	
+	if is_selection_allowed :
+		current_state = FieldState.LINE_SELECT
+	
+	elif is_multi_select_allowed :
+		current_state = FieldState.MULTI_SELECT
+	
+	match current_state:
+		FieldState.LINE_SELECT:
+			_line_select(delta);
+		FieldState.MULTI_SELECT:
+			_multi_select(delta);
+			
 	pass
 
 # ------------------
@@ -239,7 +300,7 @@ func clear_selection():
 		tilemap.set_cellv(cell, CELL_DEFAULT)
 	pass
 
-func render_mouse_hover(p_dir : Vector2, p_length : int):
+func render_mouse_hover(p_dir : Vector2, p_length : int) -> void:
 	var cell_mouse_is_over : Vector2 = tilemap.world_to_map(tilemap.get_local_mouse_position())
 	var cells_to_select = []
 	for i in p_length:
@@ -256,25 +317,9 @@ func render_mouse_hover(p_dir : Vector2, p_length : int):
 			tilemap.set_cellv(vector, selection_type )
 	pass
 
-func take_hover():
+func take_hover() -> Array:
 	var hovered_cells = tilemap.get_used_cells_by_id(CELL_HOVER)
-	
-	if hovered_cells.size() == selection_length:	
-		is_selection_allowed = false
-		var selected_entities = []
-		
-		for vector in hovered_cells:
-			selected_entities.append(field[vector.x][vector.y])
-			field[vector.x][vector.y] = null
-		
-		emit_signal("selection_made", selected_entities)
-		clear_hover()
-		emit_signal("pre_fill_field")
-		fill_gaps()
-		render()
-		emit_signal("post_selection_made")
-	
-	pass
+	return hovered_cells
 
 var last_selected_cells = []
 func shift_selection(selected_entities):
@@ -286,30 +331,14 @@ func shift_selection(selected_entities):
 		count += 1
 	pass
 
-func select_hover():
+func select_hover() -> Array :
 	var hovered_cells = tilemap.get_used_cells_by_id(CELL_HOVER)
 	
 	for cell in hovered_cells:
 		tilemap.set_cellv(cell, CELL_SELECTION)
 		selected_cells.append(cell)
 	
-	if selected_cells.size() == selected_amount_to_reach :
-		is_multi_select_allowed = false
-		
-		var selected_entities = []
-		for cell in selected_cells:
-			selected_entities.append(field[cell.x][cell.y])
-			field[cell.x][cell.y] = null
-
-		last_selected_cells = selected_cells
-		emit_signal("selection_made", selected_entities)
-		clear_selection()
-		emit_signal("pre_fill_field")
-		fill_gaps()
-		render()
-		emit_signal("post_selection_made")
-		last_selected_cells = null
-		selected_cells = []
+	return selected_cells
 	
 		
 func _shiftRight( array : Array ):
